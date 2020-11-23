@@ -1,4 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
+
+import data from './utils'
 
 import './styles/app.scss'
 
@@ -7,10 +9,11 @@ import Song from './components/Song'
 
 
 function App() {
+  const [songs, setSongs] = useState(data())
+  const [currentSong, setCurrentSong] = useState(songs[0])
 	return (
 		<div className='App'>
-			<h1>Harmony Player App</h1>
-			<Song />
+			<Song currentSong={currentSong} />
       <Player/>
 		</div>
 	)
