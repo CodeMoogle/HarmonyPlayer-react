@@ -1,0 +1,38 @@
+.library {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 20rem;
+	height: 100%;
+	box-shadow: 2px 2px 50px #aaaaaa;
+	overflow-y: scroll;
+
+	& > h2 {
+		padding: 1rem;
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		padding: 1rem;
+		cursor: pointer;
+		&:hover {
+			background-color: #e8d8fa;
+		}
+
+		&__image {
+			width: 25%;
+			overflow: hidden;
+		}
+
+		&__description {
+			color: #646464;
+			& h2 {
+				font-size: 1.2rem;
+			}
+			& p {
+				font-size: 0.9rem;
+			}
+		}
+	}
+}
