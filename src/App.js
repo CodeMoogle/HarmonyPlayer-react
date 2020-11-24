@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-import data from './utils'
+import data from './store'
 
 import './styles/app.scss'
 
@@ -10,11 +10,17 @@ import Song from './components/Song'
 
 function App() {
   const [songs, setSongs] = useState(data())
-  const [currentSong, setCurrentSong] = useState(songs[0])
+	const [currentSong, setCurrentSong] = useState(songs[9])
+	const [isPlaying, setIsPlaying] = useState(false)
+
 	return (
 		<div className='App'>
 			<Song currentSong={currentSong} />
-      <Player/>
+			<Player 
+				currentSong={currentSong}
+				isPlaying={isPlaying}
+				setIsPlaying={setIsPlaying}
+			/>
 		</div>
 	)
 }
