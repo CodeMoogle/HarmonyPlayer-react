@@ -23,10 +23,10 @@
 	&::-webkit-scrollbar-track {
 		background: transparent;
 	}
+	&::-moz-range-thumb,
 	&::-webkit-scrollbar-thumb {
-		background: rgba(155, 155, 155, 0.5);
-		border-radius: 20px;
-		border: transparent;
+		background: transparent;
+		border: none;
 	}
 }
 
@@ -37,4 +37,44 @@ body {
 img {
 	width: 100%;
 	object-fit: cover;
+}
+
+.App {
+	transition: margin-left 0.4s ease;
+	&_library-open {
+		margin-left: 30%;
+	}
+}
+
+// custom range input styles
+// track is wrapper around input
+// animte-track is
+input[type='range']:focus {
+	outline: none;
+}
+input[type='range']::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 16px;
+	height: 16px;
+	background: transparent;
+}
+
+.track {
+	position: relative;
+	width: 100%;
+	height: 1rem;
+	margin: 1rem 0;
+	border-radius: 1rem;
+	overflow: hidden;
+}
+.animate-track {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgb(204, 204, 204);
+	pointer-events: none;
+	transition: all 0.5s ease;
+	transform: translateX(0%);
 }

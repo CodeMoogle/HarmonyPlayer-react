@@ -1,11 +1,9 @@
 import React from 'react'
 
-import { playAudio } from '../utils.js'
-
-const MusicLibraryItem = ({ song, currentSong, setCurrentSong, audioRef, isPlaying }) => {
-  const songHandler = () => {
-    setCurrentSong(song)
-    playAudio(audioRef, isPlaying)
+const MusicLibraryItem = ({ song, currentSong, setCurrentSong, audioRef, playSongHandler }) => {
+  const songHandler = async () => {
+    await setCurrentSong(song)
+    playSongHandler()
   }
 
   return (

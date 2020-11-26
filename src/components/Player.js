@@ -1,11 +1,24 @@
 import React from 'react'
 
-import { formatTime, playAudio } from '../utils.js'
+import { formatTime } from '../utils'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faStepBackward, faStepForward, faPause } from '@fortawesome/free-solid-svg-icons'
 
 const Player = ({ songs, currentSong, setCurrentSong, isPlaying, audioRef, songInfo, setSongInfo, playSongHandler }) => {
+  // Inline styles to animate track progress
+  const styles = {
+    translateTrack: {
+      transform: `translateX(${songInfo.totalPercentage}%)`,
+    },
+    gradientBackround: {
+      background: `linear-gradient(45deg, ${currentSong.color[0]}, ${currentSong.color[1]})`,
+    },
+    iconColor: {
+      color: `${currentSong.color[0]}`
+    }
+  }
+
   const inputDragHandler = (e) => {
     const currentTime = e.target.value
     
@@ -13,40 +26,43 @@ const Player = ({ songs, currentSong, setCurrentSong, isPlaying, audioRef, songI
     setSongInfo({...songInfo, currentTime})
   }
 
-  const skipTrackHandler = (direction) => {
+  const skipTrackHandler = async (direction) => {
     const currentIndex = songs.findIndex(song => song.id === currentSong.id)
     const nextIndex = (currentIndex + 1) % songs.length;
     const prevIndex = currentIndex - 1 === -1 ? songs.length - 1 : (currentIndex - 1) % songs.length;
 
 		if(direction === 'forward') {
-      setCurrentSong(songs[nextIndex])
+      await setCurrentSong(songs[nextIndex])
     }
 		if(direction === 'back') {
-      setCurrentSong(songs[prevIndex])
+      await setCurrentSong(songs[prevIndex])
     }
-    playAudio(audioRef, isPlaying)
-	}
+    audioRef.current.play()
+  }
 
   return (
     <div className="player">
       <div className="player__time-control">
         <span>{formatTime(songInfo.currentTime)}</span>
-        <input 
-          type="range" 
-          min={0} 
-          max={songInfo.durationTime || 0}
-          value={songInfo.currentTime}
-          onChange={inputDragHandler}
-        />
+        <div className="track" style={styles.gradientBackround}>
+          <input 
+            type="range" 
+            min={0} 
+            max={songInfo.durationTime || 0}
+            value={songInfo.currentTime}
+            onChange={inputDragHandler}
+          />
+          <div className="animate-track" style={styles.translateTrack}></div>
+        </div>
         <span>{songInfo.durationTime ? formatTime(songInfo.durationTime) : '0:00'}</span>
       </div>
 
-      <div className="player__play-control">
+      <div className="player__play-control" style={styles.iconColor}>
       <FontAwesomeIcon 
         className="player__control-backward" 
         icon={faStepBackward} 
         size="2x" 
-        onClick={() => skipTrackHandler('back')} 
+        onClick={() => skipTrackHandler('back')}
       />
       <FontAwesomeIcon 
         className="player__control-play" 
@@ -61,8 +77,6 @@ const Player = ({ songs, currentSong, setCurrentSong, isPlaying, audioRef, songI
         onClick={() => skipTrackHandler('forward')} 
       />
       </div>
-
-      <div className="play-control"></div>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 
 import data from './store'
+import { getPercentage } from './utils'
 
 import './styles/app.scss'
 
@@ -16,7 +17,8 @@ function App() {
 	const [isPlaying, setIsPlaying] = useState(false)
 	const [songInfo, setSongInfo] = useState({
     currentTime: 0,
-    durationTime: 0,
+		durationTime: 0,
+		totalPercentage: 0,
 	})
 	const [libraryIsOpen, setLibraryIsOpen] = useState(false)
 
@@ -25,37 +27,43 @@ function App() {
 	const playSongHandler = () => {
 		if(isPlaying) {
 			setIsPlaying(false)
-		audioRef.current.pause()
+			audioRef.current.pause()
 		} else {
 			setIsPlaying(true)
 			audioRef.current.play()
 		}
 	}
+
+	const nextSongHandler = async () => {
+		const currentIndex = songs.findIndex(song => song.id === currentSong.id)
+		const nextIndex = (currentIndex + 1) % songs.length;
+
+		await setCurrentSong(songs[nextIndex])
+		if(isPlaying) audioRef.current.play()
+	}
 	
 	const timeUpdateHandler = (e) => {
+		const currentTime = e.target.currentTime
+		const durationTime = e.target.duration
+		const totalPercentage = getPercentage(currentTime, durationTime)
+
     const timeData = {
-      currentTime: e.target.currentTime,
-      durationTime: e.target.duration,
+      currentTime,
+			durationTime,
+			totalPercentage
     }
     setSongInfo({...songInfo, ...timeData})
   }
 
 	return (
-		<div className='App'>
+		<div className={`App ${libraryIsOpen ? 'App_library-open' : ''}`}>
 			<MusicLibraryToggle 
 				libraryIsOpen={libraryIsOpen}
 				setLibraryIsOpen={setLibraryIsOpen}
 			/>
-			<MusicLibrary 
-				songs={songs}
-				setSongs={setSongs}
-				audioRef={audioRef} 
-				isPlaying={isPlaying}
-				currentSong={currentSong}
-				setCurrentSong={setCurrentSong}
-				libraryIsOpen={libraryIsOpen}
-			/>
+			
 			<Song currentSong={currentSong} />
+
 			<Player
 				songs={songs}
 				currentSong={currentSong}
@@ -67,11 +75,21 @@ function App() {
 				setCurrentSong={setCurrentSong}
 			/>
 
+			<MusicLibrary 
+				songs={songs}
+				setSongs={setSongs}
+				audioRef={audioRef} 
+				playSongHandler={playSongHandler}
+				currentSong={currentSong}
+				setCurrentSong={setCurrentSong}
+				libraryIsOpen={libraryIsOpen}
+			/>
 			<audio 
         src={currentSong.audio} 
         ref={audioRef} 
         onLoadedMetadata={timeUpdateHandler}
-        onTimeUpdate={timeUpdateHandler}
+				onTimeUpdate={timeUpdateHandler}
+				onEnded={nextSongHandler}
       >
       </audio>
 		</div>

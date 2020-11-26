@@ -2,7 +2,7 @@ import React from 'react'
 
 import MusicLibraryItem from './MusicLibraryItem'
 
-const MusicLibrary = ({ songs, setSongs, audioRef, isPlaying, currentSong, setCurrentSong, libraryIsOpen }) => {
+const MusicLibrary = ({ songs, setSongs, audioRef, playSongHandler, currentSong, setCurrentSong, libraryIsOpen }) => {
   return (
     <div className={`library ${libraryIsOpen ? 'library_open' : ''}`}>
       <h2>Library</h2>
@@ -13,7 +13,7 @@ const MusicLibrary = ({ songs, setSongs, audioRef, isPlaying, currentSong, setCu
               song={song}
               setSongs={setSongs}
               audioRef={audioRef} 
-              isPlaying={isPlaying}
+              playSongHandler={playSongHandler}
               currentSong={currentSong}
               setCurrentSong={setCurrentSong}
               id={song.id}
