@@ -56,13 +56,15 @@ function App() {
 				libraryIsOpen={libraryIsOpen}
 			/>
 			<Song currentSong={currentSong} />
-			<Player 
+			<Player
+				songs={songs}
 				currentSong={currentSong}
 				audioRef={audioRef}
 				songInfo={songInfo}
 				isPlaying={isPlaying}
 				playSongHandler={playSongHandler}
 				setSongInfo={setSongInfo}
+				setCurrentSong={setCurrentSong}
 			/>
 
 			<audio 
