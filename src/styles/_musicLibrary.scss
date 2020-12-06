@@ -17,6 +17,7 @@
 	}
 
 	&-item {
+		position: relative;
 		display: flex;
 		align-items: center;
 		padding: 1rem;
@@ -40,6 +41,12 @@
 			& p {
 				font-size: 0.9rem;
 			}
+		}
+
+		&__icon {
+			position: absolute;
+			top: 1rem;
+			right: 1rem;
 		}
 
 		&_selected {

@@ -1,9 +1,17 @@
 import React from 'react'
 
-const MusicLibraryItem = ({ song, currentSong, setCurrentSong, audioRef, playSongHandler }) => {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
+
+const MusicLibraryItem = ({ song, currentSong, setCurrentSong, isPlaying, playSong, stopSong }) => {
   const songHandler = async () => {
     await setCurrentSong(song)
-    playSongHandler()
+    
+    if (song.id === currentSong.id && isPlaying) {
+      stopSong()
+    } else {
+      playSong()
+    }
   }
 
   return (
@@ -15,6 +23,12 @@ const MusicLibraryItem = ({ song, currentSong, setCurrentSong, audioRef, playSon
         <h2 className="library-item__name">{song.name}</h2>
 			  <p className="library-item__artist">{song.artist}</p>
       </div>
+
+      {song.id === currentSong.id 
+        && <FontAwesomeIcon 
+        className="library-item__icon" 
+        icon={isPlaying ? faPause : faPlay}
+      />}
 		</div>
   )
 }
