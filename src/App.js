@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react'
 
 import data from './store'
-import { getPercentage } from './utils'
+
+import useClickOutside from './hooks/useClickOutside'
+import { getPercentage } from './utils/playerUtils'
 
 import './styles/app.scss'
 
@@ -22,6 +24,9 @@ function App() {
 	const [libraryIsOpen, setLibraryIsOpen] = useState(false)
 
 	const audioRef = useRef(null)
+	const libRef = useRef(null)
+
+	useClickOutside(libRef, () => setLibraryIsOpen(false))
 
 	const playSong = () => {
 		setIsPlaying(true)
@@ -65,7 +70,20 @@ function App() {
 
 	return (
 		<div className={`App ${libraryIsOpen ? 'App_library-open' : ''}`}>
-			<MusicLibraryToggle libraryIsOpen={libraryIsOpen} setLibraryIsOpen={setLibraryIsOpen} />
+			<div ref={libRef}>
+				<MusicLibraryToggle libraryIsOpen={libraryIsOpen} setLibraryIsOpen={setLibraryIsOpen} />
+
+				<MusicLibrary
+					songs={songs}
+					playSong={playSong}
+					stopSong={stopSong}
+					setSongs={setSongs}
+					currentSong={currentSong}
+					isPlaying={isPlaying}
+					setCurrentSong={setCurrentSong}
+					libraryIsOpen={libraryIsOpen}
+				/>
+			</div>
 
 			<Song currentSong={currentSong} />
 
@@ -81,17 +99,6 @@ function App() {
 				setIsPlaying={setIsPlaying}
 			/>
 
-			<MusicLibrary
-				songs={songs}
-				playSong={playSong}
-				stopSong={stopSong}
-				setSongs={setSongs}
-				currentSong={currentSong}
-				isPlaying={isPlaying}
-				setCurrentSong={setCurrentSong}
-				libraryIsOpen={libraryIsOpen}
-				setLibraryIsOpen={setLibraryIsOpen}
-			/>
 			<audio
 				src={currentSong.audio}
 				ref={audioRef}

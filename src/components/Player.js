@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { formatTime } from '../utils'
+import { formatTime } from '../utils/playerUtils'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faStepBackward, faStepForward, faPause } from '@fortawesome/free-solid-svg-icons'
