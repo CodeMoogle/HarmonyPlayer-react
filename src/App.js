@@ -70,7 +70,7 @@ function App() {
 
 	return (
 		<div className={`App ${libraryIsOpen ? 'App_library-open' : ''}`}>
-			<div ref={libRef}>
+			<div className='library-wrapper' ref={libRef}>
 				<MusicLibraryToggle libraryIsOpen={libraryIsOpen} setLibraryIsOpen={setLibraryIsOpen} />
 
 				<MusicLibrary

@@ -46,6 +46,11 @@ img {
 	}
 }
 
+.library-wrapper {
+	position: relative;
+	z-index: 100;
+}
+
 // custom range input styles
 // track is wrapper around input
 input[type='range']:focus {
